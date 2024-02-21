@@ -1,0 +1,32 @@
+{
+  "name": "tokenator",
+  "version": "1.0.0",
+  "description": "managing tokens at fusion arcade event",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gitmank/tokenator.git"
+  },
+  "author": "Manomay Kagalkar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gitmank/tokenator/issues"
+  },
+  "homepage": "https://github.com/gitmank/tokenator#readme",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "https": "^1.0.0",
+    "pg": "^8.11.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3"
+  }
+}

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fusion Tokenator: Save Key</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+        }
+
+        a {
+            float: left;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 8px 12px;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 50px;
+        }
+
+        a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        a.active {
+            background-color: blueviolet;
+            color: white;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 100px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: blueviolet;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: hotpink;
+        }
+    </style>
+</head>
+<body>
+    <a class="active" href="/">Home</a>
+
+    <form>
+        <label for="key">Enter Key:</label>
+        <input type="text" id="key" name="key">
+        <button type="submit">Save</button>
+    </form>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var key = document.getElementById('key');
+            localStorage.setItem('key', key.value);
+            key.value = ''
+            alert('Key registered!');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fusion Tokenator: History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px 0px;
+        }
+
+        a {
+            float: left;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 8px 12px;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 50px;
+            align-self: flex-start;
+            margin-left: 20px;
+        }
+
+        a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        a.active {
+            background-color: blueviolet;
+            color: white;
+        }
+
+        video {
+            max-width: 300px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            background-color: #333;
+            color: white;
+            padding: 10px;
+        }
+
+        #navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 5px;
+        }
+
+        #scanner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            width: 300px;
+            margin-top: 20px;
+        }
+
+        #scannedTextMemo {
+            background-color: blueviolet;
+            width: 300px;
+            height: 50px;
+            margin: 10px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        li span {
+            font-weight: bold;
+        }
+
+        .positive {
+            color: green;
+        }
+
+        .negative {
+            color: red;
+        }
+    </style>
+    <script type="text/javascript" src="/js/jsqrscanner.nocache.js"></script>
+</head>
+
+<body>
+    <a class="active" href="/">Home</a>
+    <h1>🕝 History</h1>
+    <div style="max-width: 300px" id="scanner"></div>
+    <div id="scannedTextMemo"></div>
+    <ul>
+    </ul>
+
+    <script>
+        async function onQRCodeScanned(scannedText) {
+            // delete old list items
+            document.querySelector('ul').innerHTML = '';
+            // fetch transaction history
+            const history = await fetch(`/transactions/${scannedText}`)
+                .then((response) => response.json())
+                .then((data) => {
+                    if(data.length === 0) {
+                        document.getElementById('scannedTextMemo').textContent = 'NONE'
+                    }
+                    else 
+                        document.getElementById('scannedTextMemo').textContent = data.length
+                    
+                    for(item of data) {
+                        const list = document.createElement('li');
+                        list.textContent = `${item.amount} - ${item.description}`;
+                        if(item.amount > 0) {
+                            list.classList.add('positive');
+                        } else {
+                            list.classList.add('negative');
+                        }
+                        document.querySelector('ul').appendChild(list);
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+        }
+
+        //this function will be called when JsQRScanner is ready to use
+        function JsQRScannerReady() {
+            // create a new scanner and pass it a callback
+            var jbScanner = new JsQRScanner(onQRCodeScanned);
+            //reduce the size of analyzed images to increase performance on mobile devices
+            jbScanner.setSnapImageMaxSize(1000);
+            var scannerParentElement = document.getElementById("scanner");
+            if (scannerParentElement) {
+                //append the jbScanner to an existing DOM element
+                jbScanner.appendTo(scannerParentElement);
+            }
+        }
+    </script>
+</body>
+
+</html>
